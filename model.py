@@ -39,7 +39,16 @@ class Model(db.Model):
 
     __tablename__ = "models"
 
-    pass
+    model_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    year = db.Column(db.Integer, nullable=False)
+    brand_id = db.Column(db.String(5), db.ForeignKey('brands.brand_id'), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        '''Provide helpful representation when printed.'''
+
+        return '<Model model_id=%s year=%s brand_id=%s name=%s>' % (
+            self.model_id, self.year, self.brand_id, self.name)
 
 # End Part 1
 
