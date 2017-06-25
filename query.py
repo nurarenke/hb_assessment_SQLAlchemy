@@ -23,12 +23,19 @@ init_app()
 # 1. What is the datatype of the returned value of
 # ``Brand.query.filter_by(name='Ford')``?
 
+# The return data type is an instance of the BaseQuery class. If you
+# fetch the values for the query, it will return a list.
+
 
 
 # 2. In your own words, what is an association table, and what type of
 # relationship (many to one, many to many, one to one, etc.) does an
 # association table manage?
 
+# An association table manages a many to many relationship. An association
+# table creates a cross reference for many tables to reference each other.
+# The association table does not have any meaningful fields, it only provides
+# fields for other tables to reference.
 
 
 
