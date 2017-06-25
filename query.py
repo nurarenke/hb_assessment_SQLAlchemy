@@ -12,7 +12,6 @@ here, so feel free to refer to classes without the
 """
 
 from model import *
-from pprint import pprint
 
 init_app()
 
@@ -122,7 +121,7 @@ def search_brands_by_name(mystr):
         Brand.headquarters, Brand.discontinued).filter(db.func.lower(
             Brand.name).like('%' + mystr + '%')).all()
 
-    # Unpack each column in order to print them
+    # Unpacks each column in order to print them
     for brand_id, brand_name, founded, headquarters, discontinued in brand_info_search:
         print 'Brand id: {} | Brand Name: {} | Founded: {} | Headquarters: {} | Discontinued: {} \n'.format(
             brand_id, brand_name, founded, headquarters, discontinued)
@@ -131,5 +130,14 @@ def get_models_between(start_year, end_year):
     """Returns all Model objects corresponding to models made between
     start_year (inclusive) and end_year (exclusive)."""
 
-    pass
+    # Query that returns each column from the Model object
+    # Filters the rows by date
+    models_info = db.session.query(Model.year, Model.brand_id, Model.name).filter(
+        Model.year >= 1950, Model.year < 1955).all()
+
+    # Uppacks each column in order to print them
+    for model_year, model_brand_id, model_name in models_info:
+        print 'Model Year: {} | Brand Id: {} | Model Name: {}'.format(
+            model_year, model_brand_id, model_name)
+    
 
