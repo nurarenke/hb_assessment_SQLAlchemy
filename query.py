@@ -12,6 +12,7 @@ here, so feel free to refer to classes without the
 """
 
 from model import *
+from pprint import pprint
 
 init_app()
 
@@ -78,14 +79,36 @@ def get_model_info(year):
     """Takes in a year and prints out each model name, brand name, and brand
     headquarters for that year using only ONE database query."""
 
-    pass
+    # Query that returns a list of tuples of model info for a particular year
+    model_info = db.session.query(Model.name, Brand.name, Brand.headquarters).join(
+        Brand).filter(Model.year == year).all()
 
+    # Unpack each item in the tuple to print and format 
+    for model_name, brand_name, brand_headquarters in model_info:
+        print 'Model Name:{} | Brand Name:{} | Brand Headquarters:{} \n'.format(
+            model_name, brand_name, brand_headquarters)
 
 def get_brands_summary():
     """Prints out each brand name (once) and all of that brand's models,
     including their year, using only ONE database query."""
 
-    pass
+    # Query that returns a list of tuples each brand and it's model info
+    total_brands = db.session.query(Brand.name, Model.name, Model.year).join(
+        Model).order_by(Brand.name).all()
+
+    current_brand_name = ''
+
+    # unpack each item in the tuple
+    for brand_name, model_name, model_year in total_brands:
+        # if the brand_name is not already the current brand_name at the top
+        if current_brand_name != brand_name:
+            # store the current brand_name and then print it
+            current_brand_name = brand_name
+            print "\n" + brand_name
+        # otherwise if current_brand_name does equal the brand_name just print
+        # the other necessary info underneath it 
+        print '{} {}'.format(model_name, model_year)
+    
 
 
 def search_brands_by_name(mystr):
