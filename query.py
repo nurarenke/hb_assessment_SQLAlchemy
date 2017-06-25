@@ -108,15 +108,24 @@ def get_brands_summary():
         # otherwise if current_brand_name does equal the brand_name just print
         # the other necessary info underneath it 
         print '{} {}'.format(model_name, model_year)
-    
-
 
 def search_brands_by_name(mystr):
     """Returns all Brand objects corresponding to brands whose names include
     the given string."""
 
-    pass
+    # make sure that the argument given is lower case to match the brand_name
+    mystr = mystr.lower()
 
+    # Query that returns each column from the Brand object 
+    # Then checks to see if the string is equal to or contains the brand_name
+    brand_info_search = db.session.query(Brand.brand_id, Brand.name, Brand.founded, 
+        Brand.headquarters, Brand.discontinued).filter(db.func.lower(
+            Brand.name).like('%' + mystr + '%')).all()
+
+    # Unpack each column in order to print them
+    for brand_id, brand_name, founded, headquarters, discontinued in brand_info_search:
+        print 'Brand id: {} | Brand Name: {} | Founded: {} | Headquarters: {} | Discontinued: {} \n'.format(
+            brand_id, brand_name, founded, headquarters, discontinued)
 
 def get_models_between(start_year, end_year):
     """Returns all Model objects corresponding to models made between
